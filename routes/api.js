@@ -1,5 +1,6 @@
 module.exports = function (app, Model) {
-  app.route("/api/issues").post(function (req, res) {
+  app.route("/api/issues/:project")
+  .post(function (req, res) {
     let issue = req.body;
     console.log(issue)
     var newIssue = new Model({
@@ -18,5 +19,9 @@ module.exports = function (app, Model) {
         res.json(record);
       }
     });
-  });
+  })
+
+  .get(function(req,res){
+
+  })
 };

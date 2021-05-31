@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 
 let IssueTracker;
+let Project
 
 //creating tracker schema
 
@@ -13,7 +14,17 @@ const issueTracker = new mongoose.Schema({
     "status_text":{type:String}
 },{timestamps:{createdAt:"created_on",updatedAt:"updated_on"}})
 
-// creating a model
+//creating project schema
+
+const project = new mongoose.Schema({
+    "project":{type:String},
+    "project_tracker" : [issueTracker]
+})
+
+// creating a models
 IssueTracker = mongoose.model("IssueTracker",issueTracker)
+ProjectTracker = mongoose.model("PssueTracker",project)
+
 
 exports.IssueTrackerModel = IssueTracker
+exports.ProjectTrackerModel = ProjectTracker
