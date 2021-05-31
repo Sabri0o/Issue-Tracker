@@ -1,0 +1,30 @@
+{
+  "name": "issue-tracker",
+  "version": "1.0.0",
+  "description": "Issue Tracker a Free Code Camp Project",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "test": "mocha /.tests/ --ui tdd"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sabri0o/Issue-Tracker.git"
+  },
+  "author": "Sabri0o",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sabri0o/Issue-Tracker/issues"
+  },
+  "homepage": "https://github.com/Sabri0o/Issue-Tracker#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "chai-http": "^4.3.0",
+    "mocha": "^8.4.0",
+    "nodemon": "^2.0.7"
+  }
+}
