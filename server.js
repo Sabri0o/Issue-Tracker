@@ -37,8 +37,10 @@ mongoose.connect(
 
 // importing IssueTrackerModel modal
 const IssueTracker = require("./dbSchema.js").IssueTrackerModel;
+// importing IssueTrackerModel modal
+const ProjectTracker = require("./dbSchema.js").ProjectTrackerModel;
 
-apiRoutes(app,IssueTracker)
+apiRoutes(app,ProjectTracker,IssueTracker)
 
 app.listen(process.env.PORT || 8000, () => {
   console.log("server is listening...");
