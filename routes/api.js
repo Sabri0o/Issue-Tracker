@@ -55,15 +55,26 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
     })
 
     .get(function (req, res) {
-        let project = req.params.project
-        ProjectTrackerModel.findOne({project:project},'project_tracker')
-        .then(record=>{
-            console.log(record.project_tracker)
-            res.json(record.project_tracker)
+      let project = req.params.project;
+      let query = req.query;
+      console.log(query);
+      // find the specific project
+      ProjectTrackerModel.findOne({ project: project })
+        .then((record) => {
+            // filtering the project_tracker property based on the query
+          let filtred = record.project_tracker.filter((issue) => {
+            for (key in query) {
+              if (query[key] !== issue[key].toString()) {
+                return false;
+              }
+            }
+            return true;
+          });
+          res.json(filtred);
         })
-        .catch(err=>{
-            console.log('error:',err.message)
-            res.json('error')
-        })
+        .catch((err) => {
+          console.log("error:", err.message);
+          res.json(err.message);
+        });
     });
 };
