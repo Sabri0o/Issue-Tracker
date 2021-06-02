@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon server.js",
-    "test": "mocha /.tests/ --ui tdd"
+    "test": "mocha ./tests/ --ui tdd"
   },
   "repository": {
     "type": "git",
@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Sabri0o/Issue-Tracker#readme",
   "dependencies": {
+    "chai-json": "^1.0.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "mongoose": "^5.12.12"
