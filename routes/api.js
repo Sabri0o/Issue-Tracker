@@ -7,7 +7,7 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
     .post(function (req, res) {
       let project = req.params.project;
       let issue = req.body;
-      console.log(issue);
+      // console.log(issue);
       // checking required fields
       if (!issue.title || !issue.text || !issue.createdBy) {
         res.json({ error: "required field(s) missing" });
@@ -31,7 +31,7 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
                   console.log("error");
                   res.json({ error: err.message });
                 }
-                res.json(newIssue);
+                res.json(record.project_tracker.slice(-1));
               });
             } else {
               // else create a new project and push the new issue to its project_tracker
@@ -45,7 +45,7 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
                   console.log("error");
                   res.json({ error: err.message });
                 }
-                res.json(newIssue);
+                res.json(newProject.project_tracker[0]);
               });
             }
           })
