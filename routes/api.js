@@ -1,6 +1,9 @@
+//const ObjectID = require('mongodb').ObjectID;, and then to use it to call new ObjectID(THE_ID)
+const ObjectID = require("mongodb").ObjectID;
+
 module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
   app
-    .route("/api/issues/:project")
+    .route("/api/issues/:project?")
     .post(function (req, res) {
       let project = req.params.project;
       let issue = req.body;
@@ -61,7 +64,7 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
       // find the specific project
       ProjectTrackerModel.findOne({ project: project })
         .then((record) => {
-            // filtering the project_tracker property based on the query
+          // filtering the project_tracker property based on the query
           let filtred = record.project_tracker.filter((issue) => {
             for (key in query) {
               if (query[key] !== issue[key].toString()) {
@@ -76,5 +79,45 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
           console.log("error:", err.message);
           res.json(err.message);
         });
+    })
+
+    .put(function (req, res) {
+      let project = req.params.project;
+      console.log("query,", req.query);
+      let issue_id = req.query._id;
+      delete req.query._id;
+      console.log("issue_id,", issue_id);
+      console.log("query,", req.query);
+      if (!project) {
+        res.json({ error: "project doesn't exist" });
+      } else if (!issue_id) {
+        res.json({ error: "missing _id" });
+      } else if (JSON.stringify(req.query) === "{}") {
+        res.json({ error: "no update field(s) sent", _id: issue_id });
+      } else {
+        ProjectTrackerModel.findOne({ project: project })
+          .then((project) => {
+            // good ressource
+            // https://dev.to/danimalphantom/adding-updating-and-removing-subdocuments-with-mongoose-1dj5
+            // find corresponding issue ticket and updating it
+            let updated = project.project_tracker.id(issue_id);
+            for (field in req.query) {
+              updated[field] = req.query[field];
+            }
+            // saving project
+            project.save((err, result) => {
+              if (err) {
+                res.json("error while saving changes");
+              } else {
+                console.log(result);
+                res.json({ result: "successfully updated", _id: issue_id });
+              }
+            });
+          })
+          .catch((err) => {
+            console.log("error: ", err.message);
+            res.json({ error: "could not update", _id: _id });
+          });
+      }
     });
 };
