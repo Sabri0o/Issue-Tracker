@@ -89,7 +89,7 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
       console.log("issue_id,", issue_id);
       console.log("query,", req.query);
       if (!project) {
-        res.json({ error: "project doesn't exist" });
+        res.json({ error: "project name missing" });
       } else if (!issue_id) {
         res.json({ error: "missing _id" });
       } else if (JSON.stringify(req.query) === "{}") {
@@ -97,22 +97,26 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
       } else {
         ProjectTrackerModel.findOne({ project: project })
           .then((project) => {
-            // good ressource
-            // https://dev.to/danimalphantom/adding-updating-and-removing-subdocuments-with-mongoose-1dj5
-            // find corresponding issue ticket and updating it
-            let updated = project.project_tracker.id(issue_id);
-            for (field in req.query) {
-              updated[field] = req.query[field];
-            }
-            // saving project
-            project.save((err, result) => {
-              if (err) {
-                res.json("error while saving changes");
-              } else {
-                console.log(result);
-                res.json({ result: "successfully updated", _id: issue_id });
+            if (!project) {
+              res.json({ error: "project doesn't exist" });
+            } else {
+              // good ressource
+              // https://dev.to/danimalphantom/adding-updating-and-removing-subdocuments-with-mongoose-1dj5
+              // find corresponding issue ticket and updating it
+              let updated = project.project_tracker.id(issue_id);
+              for (field in req.query) {
+                updated[field] = req.query[field];
               }
-            });
+              // saving project
+              project.save((err, result) => {
+                if (err) {
+                  res.json("error while saving changes");
+                } else {
+                  console.log(result);
+                  res.json({ result: "successfully updated", _id: issue_id });
+                }
+              });
+            }
           })
           .catch((err) => {
             console.log("error: ", err.message);
