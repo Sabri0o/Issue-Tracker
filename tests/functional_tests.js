@@ -2,7 +2,7 @@ const chaiHttp = require("chai-http");
 const chai = require("chai");
 const assert = chai.assert;
 const server = require("../server");
-
+const mongoose = require("mongoose");
 chai.use(chaiHttp);
 
 // Create an issue with every field: POST request to /api/issues/{project}
@@ -20,41 +20,41 @@ chai.use(chaiHttp);
 // Delete an issue with an invalid _id: DELETE request to /api/issues/{project}
 // Delete an issue with missing _id: DELETE request to /api/issues/{project}
 
-suite("Functional Tests", function () {
-  test("Create an issue with every field: POST request to /api/issues/{project}", function (done) {
-    chai
-      .request(server)
-      .post("/api/issues/project_XY/")
-      .send({
-        title: "ticket_5",
-        text: "testing",
-        createdBy: "sabri0o",
-        assignedTo: "mister X",
-        statusText: "kill everyone then kill yourself",
-      })
-      .then(() => {
-        // in case we are not using the express.json middleware (parse the request into json) 
-        // and we want to be sure that the content is a valid json we can run the following code
-        // (we accepted as text and parse it into json)
-            // let resultObj = JSON.parse(res.text);
-            // delete resultObj._id;
-            // console.log("resultObj: ", resultObj);
-        assert.deepEqual(
-          res.json,
-          {
-            open: true,
-            issue_title: "ticket_5",
-            issue_text: "testing",
-            created_by: "sabri0o",
-            assigned_to: "mister X",
-            status_text: "kill everyone then kill yourself",
-          },
-          "keys order doesn't matter"
-        );
-      })
-      .catch((err) => {
-        throw err.message;
-      });
-    done();
+describe("Functional tests", function () {
+  describe("POST request to /api/issues/{project}", function () {
+    before(function (done) {
+      const mySecret = process.env.MONGO_URI;
+      mongoose.connect(
+        mySecret,
+        {
+          useNewUrlParser: true,
+          useUnifiedTopology: true,
+          useFindAndModify: false,
+        },
+        function (error) {
+          if (error) {
+            console.log("Database error or database connection error " + error);
+          }
+          console.log("connected to test database!");
+          done();
+        }
+      );
+    });
+    it("should create an issue with every field: POST request to /api/issues/{project}", function (done) {
+      chai
+        .request(server)
+        .post("/api/issues/project_XY/")
+        .send({
+          title: "ticket_5",
+          text: "testing",
+          createdBy: "sabri0o",
+          assignedTo: "mister X",
+          statusText: "kill everyone then kill yourself",
+        })
+        .end((err, res) => {
+            console.log(res)
+          done();
+        });
+    });
   });
 });
