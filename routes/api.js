@@ -89,7 +89,7 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
       console.log("issue_id,", issue_id);
       console.log("query,", req.query);
       if (!project) {
-        res.json({ error: "project name missing" });
+        res.json({ error: "project name is missing" });
       } else if (!issue_id) {
         res.json({ error: "missing _id" });
       } else if (JSON.stringify(req.query) === "{}") {
@@ -121,6 +121,36 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
           .catch((err) => {
             console.log("error: ", err.message);
             res.json({ error: "could not update", _id: _id });
+          });
+      }
+    })
+
+    .delete(function (req, res) {
+      let project = req.params.project;
+      let issue_id = req.query._id;
+      if (!issue_id) {
+        res.json({ error: "missing _id" });
+      } else if (!project) {
+        res.json({ error: "project name is missing" });
+      } else {
+        ProjectTrackerModel.findOne({ project: project })
+          .then((project) => {
+            if (!project) {
+              res.json({ error: "project doesn't exist" });
+            } else {
+              let removed = project.project_tracker.id(issue_id);
+              removed.remove();
+              project.save((err, result) => {
+                if (err) {
+                  res.json("error while saving changes");
+                } else {
+                  res.json({ result: "successfully deleted", _id: issue_id });
+                }
+              });
+            }
+          })
+          .catch((err) => {
+            res.json({ error: "could not delete", _id: issue_id });
           });
       }
     });
