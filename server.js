@@ -18,22 +18,6 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + "/views/index.html");
 });
 
-// connecting database
-// const mySecret = process.env.MONGO_URI;
-// mongoose.connect(
-//   mySecret,
-//   {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//     useFindAndModify: false,
-//   },
-//   function (error) {
-//     if (error) {
-//       console.log("Database error or database connection error " + error);
-//     }
-//     console.log("Database state is " + !!mongoose.connection.readyState);
-//   }
-// );
 mongoose.connect(
   config.mongoURI[app.settings.env],
   {
@@ -51,18 +35,13 @@ mongoose.connect(
     }
   }
 );
+
 // importing IssueTrackerModel modal
 const IssueTracker = require("./dbSchema.js").IssueTrackerModel;
 // importing IssueTrackerModel modal
 const ProjectTracker = require("./dbSchema.js").ProjectTrackerModel;
 
-// importing IssueTrackerModelForTesting modal
-const IssueTrackerForTesting = require("./dbSchema.js").IssueTrackerModel;
-// importing IssueTrackerModelForTesting modal
-const ProjectTrackerForTesting = require("./dbSchema.js").ProjectTrackerModel;
-
 apiRoutes(app, ProjectTracker, IssueTracker);
-apiRoutes(app, ProjectTrackerForTesting, IssueTrackerForTesting);
 
 app.listen(process.env.PORT || 8000, () => {
   console.log("server is listening...");
