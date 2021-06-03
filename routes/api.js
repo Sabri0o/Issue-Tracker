@@ -1,6 +1,3 @@
-//const ObjectID = require('mongodb').ObjectID;, and then to use it to call new ObjectID(THE_ID)
-const ObjectID = require("mongodb").ObjectID;
-
 module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
   app
     .route("/api/issues/:project?")

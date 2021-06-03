@@ -3,6 +3,10 @@ const chai = require("chai");
 const assert = chai.assert;
 const server = require("../server");
 const mongoose = require("mongoose");
+require("dotenv").config();
+const expect = require("chai").expect;
+
+
 chai.use(chaiHttp);
 
 // Create an issue with every field: POST request to /api/issues/{project}
@@ -21,25 +25,25 @@ chai.use(chaiHttp);
 // Delete an issue with missing _id: DELETE request to /api/issues/{project}
 
 describe("Functional tests", function () {
-  describe("POST request to /api/issues/{project}", function () {
-    before(function (done) {
-      const mySecret = process.env.MONGO_URI;
-      mongoose.connect(
-        mySecret,
-        {
-          useNewUrlParser: true,
-          useUnifiedTopology: true,
-          useFindAndModify: false,
-        },
-        function (error) {
-          if (error) {
-            console.log("Database error or database connection error " + error);
-          }
-          console.log("connected to test database!");
-          done();
+  before(function (done) {
+    const mySecret = process.env.MONGO_URI;
+    mongoose.connect(
+      mySecret,
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+      },
+      function (error) {
+        if (error) {
+          console.log("Database error or database connection error " + error);
         }
-      );
-    });
+        console.log("connected to test database!");
+        done();
+      }
+    );
+  });
+  describe("POST request to /api/issues/{project}", function () {
     it("should create an issue with every field: POST request to /api/issues/{project}", function (done) {
       chai
         .request(server)
@@ -52,7 +56,8 @@ describe("Functional tests", function () {
           statusText: "kill everyone then kill yourself",
         })
         .end((err, res) => {
-            console.log(res)
+          console.log(res.text);
+          expect({a: 25}).to.deep.equal({a: 1})
           done();
         });
     });
