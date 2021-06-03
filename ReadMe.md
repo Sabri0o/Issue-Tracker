@@ -1,4 +1,4 @@
-Issue Tracker a Free Code Camp Project
+## Issue Tracker a Free Code Camp Project
 
 * You can send a POST request to ***/api/issues/{projectname}*** with form data containing the required fields ***issue_title, issue_text, created_by, and optionally assigned_to and status_text***.
 

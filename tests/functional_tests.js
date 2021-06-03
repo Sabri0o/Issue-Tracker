@@ -9,12 +9,6 @@ const ProjectTracker = require("../dbSchema").ProjectTrackerModel;
 
 chai.use(chaiHttp);
 
-// Create an issue with every field: POST request to /api/issues/{project}
-// Create an issue with only required fields: POST request to /api/issues/{project}
-// Create an issue with missing required fields: POST request to /api/issues/{project}
-// View issues on a project: GET request to /api/issues/{project}
-// View issues on a project with one filter: GET request to /api/issues/{project}
-// View issues on a project with multiple filters: GET request to /api/issues/{project}
 // Update one field on an issue: PUT request to /api/issues/{project}
 // Update multiple fields on an issue: PUT request to /api/issues/{project}
 // Update an issue with missing _id: PUT request to /api/issues/{project}
@@ -38,7 +32,7 @@ describe("Functional tests", function () {
       this.timeout(10000);
       chai
         .request(server)
-        .post("/api/issues/project_XY/")
+        .post("/api/issues/project_XY?")
         .send({
           title: "ticket_X",
           text: "testing",
@@ -69,7 +63,7 @@ describe("Functional tests", function () {
       this.timeout(10000);
       chai
         .request(server)
-        .post("/api/issues/project_XY/")
+        .post("/api/issues/project_XY?")
         .send({
           title: "ticket_Y",
           text: "testing",
@@ -96,7 +90,7 @@ describe("Functional tests", function () {
     this.timeout(10000);
     chai
       .request(server)
-      .post("/api/issues/project_XY/")
+      .post("/api/issues/project_XY?")
       .send({})
       .end((err, res) => {
         // console.log("res.body type", typeof res.body);
@@ -106,6 +100,74 @@ describe("Functional tests", function () {
 
         done();
       });
+  });
+
+  describe("Get requests tests", function () {
+    it("should view issues on a project: GET request to /api/issues/{project}", function (done) {
+      this.timeout(10000);
+      chai
+        .request(server)
+        .get("/api/issues/project_XY?")
+        .end((err, res) => {
+          // console.log("res.body type", typeof res.body);
+          // console.log("res.body", res.body);
+          expect(res.status).to.equal(200);
+          expect(res.body).to.be.an.instanceof(Array);
+          for (let issue of res.body) {
+            expect(issue).to.have.property("open");
+            expect(issue).to.have.property("issue_title");
+            expect(issue).to.have.property("issue_text");
+            expect(issue).to.have.property("created_by");
+            expect(issue).to.have.property("assigned_to");
+            expect(issue).to.have.property("status_text");
+            expect(issue).to.have.property("created_on");
+            expect(issue).to.have.property("updated_on");
+          }
+          done();
+        });
+    });
+
+    it("should view issues on a project with one filter: GET request to /api/issues/{project}", function (done) {
+      this.timeout(10000);
+      chai
+        .request(server)
+        .get("/api/issues/project_XY?")
+        .query({
+          issue_text: "testing",
+        })
+        .end((err, res) => {
+          // console.log("res.body type", typeof res.body);
+          // console.log("res.body", res.body);
+          expect(res.status).to.equal(200);
+          expect(res.body).to.be.an.instanceof(Array);
+          for (let issue of res.body) {
+            expect(issue).to.have.property("issue_text", "testing");
+          }
+          done();
+        });
+    });
+
+    it("should view issues on a project with multiple filters: GET request to /api/issues/{project}", function (done) {
+      this.timeout(10000);
+      chai
+        .request(server)
+        .get("/api/issues/project_XY?")
+        .query({
+          issue_text: "testing",
+          assigned_to: "mister X",
+        })
+        .end((err, res) => {
+          // console.log("res.body type", typeof res.body);
+          // console.log("res.body", res.body);
+          expect(res.status).to.equal(200);
+          expect(res.body).to.be.an.instanceof(Array);
+          for (let issue of res.body) {
+            expect(issue).to.have.property("issue_text", "testing");
+            expect(issue).to.have.property("assigned_to", "mister X");
+          }
+          done();
+        });
+    });
   });
 
   //After all tests are finished close connection
