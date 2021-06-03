@@ -1,11 +1,11 @@
 const express = require("express");
 const app = express();
+var config = require("./config");
 
 require("dotenv").config();
 const mongoose = require("mongoose");
 
-const apiRoutes = require('./routes/api.js');
-
+const apiRoutes = require("./routes/api.js");
 
 // to reconize the request object as json request
 app.use(express.json());
@@ -19,32 +19,53 @@ app.get("/", function (req, res) {
 });
 
 // connecting database
-const mySecret = process.env.MONGO_URI;
+// const mySecret = process.env.MONGO_URI;
+// mongoose.connect(
+//   mySecret,
+//   {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//     useFindAndModify: false,
+//   },
+//   function (error) {
+//     if (error) {
+//       console.log("Database error or database connection error " + error);
+//     }
+//     console.log("Database state is " + !!mongoose.connection.readyState);
+//   }
+// );
 mongoose.connect(
-  mySecret,
+  config.mongoURI[app.settings.env],
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
   },
-  function (error) {
-    if (error) {
-      console.log("Database error or database connection error " + error);
+  function (err, res) {
+    if (err) {
+      console.log("Error connecting to the database. " + err);
+    } else {
+      console.log(
+        "Connected to Database: " + config.mongoURI[app.settings.env]
+      );
     }
-    console.log("Database state is " + !!mongoose.connection.readyState);
   }
 );
-
 // importing IssueTrackerModel modal
 const IssueTracker = require("./dbSchema.js").IssueTrackerModel;
 // importing IssueTrackerModel modal
 const ProjectTracker = require("./dbSchema.js").ProjectTrackerModel;
 
-apiRoutes(app,ProjectTracker,IssueTracker)
+// importing IssueTrackerModelForTesting modal
+const IssueTrackerForTesting = require("./dbSchema.js").IssueTrackerModel;
+// importing IssueTrackerModelForTesting modal
+const ProjectTrackerForTesting = require("./dbSchema.js").ProjectTrackerModel;
+
+apiRoutes(app, ProjectTracker, IssueTracker);
+apiRoutes(app, ProjectTrackerForTesting, IssueTrackerForTesting);
 
 app.listen(process.env.PORT || 8000, () => {
   console.log("server is listening...");
 });
 
-
-module.exports = app // for testing
+module.exports = app; // for testing

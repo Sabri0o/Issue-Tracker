@@ -17,3 +17,15 @@ Issue Tracker a Free Code Camp Project
 * When the PUT request sent to ***/api/issues/{projectname}*** does not include update fields, the return value is ***{ error: 'no update field(s) sent', '_id': _id }***. On any other error, the return value is ***{ error: 'could not update', '_id': _id }***.
 
 * You can send a DELETE request to ***/api/issues/{projectname}*** with an ***_id*** to delete an issue. If no _id is sent, the return value is ***{ error: 'missing _id' }***. On success, the return value is ***{ result: 'successfully deleted', '_id': _id }***. On failure, the return value is ***{ error: 'could not delete', '_id': _id }***.
+
+
+## Notes:
+* good ressource for updating a subdocument in mongoose: https://dev.to/danimalphantom/adding-updating-and-removing-subdocuments-with-mongoose-1dj5
+
+* "using the main database for testing purposes is not ideal since we’re polluting the database with test data. Instead, we need to utilize a test database and add a dummy data to it to assert against. To do this, we can use the beforeEach() and afterEach() hooks - which, as the names suggest, add and remove a dummy document to the database before and after each test case is ran."
+https://mherman.org/blog/testing-node-js-with-mocha-and-cha
+
+    * adding a configuration file called config.js to the “server” folder in order to specify a different database URI for testing purposes
+
+
+    * app.settings.env : to detect what environment an expressJS app is running in (development, test, production)
