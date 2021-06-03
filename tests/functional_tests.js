@@ -2,7 +2,7 @@ process.env.NODE_ENV = "test"; // set the environment on 'test' ('development' b
 
 const chaiHttp = require("chai-http");
 const chai = require("chai");
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 const server = require("../server");
 const expect = require("chai").expect;
 const ProjectTracker = require("../dbSchema").ProjectTrackerModel;
@@ -64,10 +64,37 @@ describe("Functional tests", function () {
           done();
         });
     });
-  });
-    //After all tests are finished close connection
-    after(function (done) {
-      console.log("disconnecting db");
-      mongoose.connection.close(done);
+
+    it("should create an issue with only required fields: POST request to /api/issues/{project}", function (done) {
+      this.timeout(10000);
+      chai
+        .request(server)
+        .post("/api/issues/project_XY/")
+        .send({
+          title: "ticket_Y",
+          text: "testing",
+          createdBy: "sabri0o",
+        })
+        .end((err, res) => {
+          // console.log("res.body type", typeof res.body);
+          // console.log("res.body", res.body);
+          expect(res.status).to.equal(200);
+          expect(res.body).to.have.property("open", true);
+          expect(res.body).to.have.property("issue_title", "ticket_Y");
+          expect(res.body).to.have.property("issue_text", "testing");
+          expect(res.body).to.have.property("created_by", "sabri0o");
+          expect(res.body).to.have.property("assigned_to","");
+          expect(res.body).to.have.property("status_text","");
+          expect(res.body).to.have.property("created_on");
+          expect(res.body).to.have.property("updated_on");
+          done();
+        });
     });
+  });
+
+  //After all tests are finished close connection
+  after(function (done) {
+    console.log("disconnecting db");
+    mongoose.connection.close(done);
+  });
 });

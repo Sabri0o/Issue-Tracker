@@ -20,7 +20,7 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
               assigned_to: issue.assignedTo,
               status_text: issue.statusText,
             });
-            // if project exists we push the new issue to its project_tracker
+            // if project exists we push the new issue to its project_tracker  
             if (record) {
               record.project_tracker.push(newIssue);
               record.save((err, data) => {
@@ -28,7 +28,7 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
                   console.log("error");
                   res.json({ error: err.message });
                 }
-                res.json(record.project_tracker.slice(-1));
+                res.json(record.project_tracker.slice(-1)[0]);
               });
             } else {
               // else create a new project and push the new issue to its project_tracker
