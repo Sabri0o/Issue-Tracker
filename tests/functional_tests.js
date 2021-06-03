@@ -83,13 +83,29 @@ describe("Functional tests", function () {
           expect(res.body).to.have.property("issue_title", "ticket_Y");
           expect(res.body).to.have.property("issue_text", "testing");
           expect(res.body).to.have.property("created_by", "sabri0o");
-          expect(res.body).to.have.property("assigned_to","");
-          expect(res.body).to.have.property("status_text","");
+          expect(res.body).to.have.property("assigned_to", "");
+          expect(res.body).to.have.property("status_text", "");
           expect(res.body).to.have.property("created_on");
           expect(res.body).to.have.property("updated_on");
           done();
         });
     });
+  });
+
+  it("should create an issue with missing required fields: POST request to /api/issues/{project}", function (done) {
+    this.timeout(10000);
+    chai
+      .request(server)
+      .post("/api/issues/project_XY/")
+      .send({})
+      .end((err, res) => {
+        // console.log("res.body type", typeof res.body);
+        // console.log("res.body", res.body);
+        expect(res.status).to.equal(200);
+        expect(res.body).to.deep.equal({ error: "required field(s) missing" });
+
+        done();
+      });
   });
 
   //After all tests are finished close connection
