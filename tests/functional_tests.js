@@ -9,10 +9,6 @@ const ProjectTracker = require("../dbSchema").ProjectTrackerModel;
 const { ProjectTrackerModel, IssueTrackerModel } = require("../dbSchema");
 chai.use(chaiHttp);
 
-// Delete an issue: DELETE request to /api/issues/{project}
-// Delete an issue with an invalid _id: DELETE request to /api/issues/{project}
-// Delete an issue with missing _id: DELETE request to /api/issues/{project}
-
 describe("Functional tests", function () {
   let dummy_id;
   before(function (done) {
@@ -272,7 +268,7 @@ describe("Functional tests", function () {
         .put("/api/issues/project_XY?")
         .send({
           _id: "60b8e7e74d551e44144b4c29",
-          assigned_to:"mister Z"
+          assigned_to: "mister Z",
         })
         .end((err, res) => {
           expect(res.status).to.equal(200);
@@ -285,6 +281,56 @@ describe("Functional tests", function () {
     });
   });
 
+  describe("Delete requests tests", function () {
+    it("should delete an issue: DELETE request to /api/issues/{project}", function (done) {
+      this.timeout(10000);
+      chai
+        .request(server)
+        .delete("/api/issues/project_XY?")
+        .send({
+          _id: dummy_id,
+        })
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body).to.deep.equal({
+            result: "successfully deleted",
+            _id: dummy_id,
+          });
+          done();
+        });
+    });
+
+    it("should delete an issue with an invalid _id: DELETE request to /api/issues/{project}", function (done) {
+      this.timeout(10000);
+      chai
+        .request(server)
+        .delete("/api/issues/project_XY?")
+        .send({
+          _id: "60b8e7e74d551e44144b4c29",
+        })
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body).to.deep.equal({
+            error: "could not delete",
+            _id: "60b8e7e74d551e44144b4c29",
+          });
+          done();
+        });
+    });
+
+    it("should delete an issue with missing _id: DELETE request to /api/issues/{project}", function (done) {
+      this.timeout(10000);
+      chai
+        .request(server)
+        .delete("/api/issues/project_XY?")
+        .send({})
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body).to.deep.equal({ error: "missing _id" });
+          done();
+        });
+    });
+  });
   //After all tests are finished close connection
   after(function (done) {
     console.log("disconnecting db");

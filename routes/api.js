@@ -124,7 +124,7 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
 
     .delete(function (req, res) {
       let project = req.params.project;
-      let issue_id = req.query._id;
+      let issue_id = req.body._id;
       if (!issue_id) {
         res.json({ error: "missing _id" });
       } else if (!project) {
