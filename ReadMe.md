@@ -20,7 +20,7 @@
 
 
 ## Notes:
-* good ressource for updating a subdocument in mongoose: https://dev.to/danimalphantom/adding-updating-and-removing-subdocuments-with-mongoose-1dj5
+* good resource for updating a subdocument in mongoose: https://dev.to/danimalphantom/adding-updating-and-removing-subdocuments-with-mongoose-1dj5
 
 * "using the main database for testing purposes is not ideal since we’re polluting the database with test data. Instead, we need to utilize a test database and add a dummy data to it to assert against. To do this, we can use the beforeEach() and afterEach() hooks - which, as the names suggest, add and remove a dummy document to the database before and after each test case is ran."
 https://mherman.org/blog/testing-node-js-with-mocha-and-cha

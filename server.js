@@ -1,18 +1,21 @@
 const express = require("express");
 const app = express();
-var config = require("./config");
+const config = require("./config");
+const apiRoutes = require("./routes/api.js");
+
 
 require("dotenv").config();
 const mongoose = require("mongoose");
 
-const apiRoutes = require("./routes/api.js");
 
 // to reconize the request object as json request
 app.use(express.json());
 // to reconize the request object as array or a string
 app.use(express.urlencoded({ extended: true }));
 // serving static files
+
 app.use("/public", express.static(__dirname + "/public"));
+
 
 app.get("/", function (req, res) {
   res.sendFile(__dirname + "/views/index.html");

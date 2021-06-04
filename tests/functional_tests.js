@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 const server = require("../server");
 const expect = require("chai").expect;
 const ProjectTracker = require("../dbSchema").ProjectTrackerModel;
-
+const { ProjectTrackerModel, IssueTrackerModel } = require("../dbSchema");
 chai.use(chaiHttp);
 
 // Update one field on an issue: PUT request to /api/issues/{project}
@@ -19,11 +19,33 @@ chai.use(chaiHttp);
 // Delete an issue with missing _id: DELETE request to /api/issues/{project}
 
 describe("Functional tests", function () {
+  let dummy_id;
   before(function (done) {
     // https://github.com/mochajs/mocha/issues/2025
     // increasing the timeout to longer than the HTTP API is expected to take to respond
     this.timeout(10000);
-    ProjectTracker.collection.drop(done);
+    ProjectTracker.collection.drop();
+    let dummyIssue = new IssueTrackerModel({
+      issue_title: "issue title",
+      issue_text: "issue title",
+      created_by: "sabri0o",
+      assigned_to: "to you",
+      status_text: "take a rest",
+    });
+
+    let dummyProject = new ProjectTrackerModel({
+      project: "project_XY",
+      project_tracker: [dummyIssue],
+    });
+
+    dummyProject.save((err, data) => {
+      if (err) {
+        console.log("dummyDataError:", err.message);
+      }
+      dummy_id = dummyProject.project_tracker[0].id;
+      console.log("dummy_id:", dummy_id);
+    });
+    done();
   });
 
   describe("Post requests tests", function () {
@@ -177,19 +199,17 @@ describe("Functional tests", function () {
         .request(server)
         .put("/api/issues/project_XY?")
         .send({
-          _id: "60b9e314cb6edd3854a45924",
-          open: 'false',
+          _id: dummy_id,
+          open: false,
           issue_text: "executing",
           assigned_to: "mister X",
-          status_text: "no more killing"
+          status_text: "enough killing",
         })
         .end((err, res) => {
-          // console.log("res.body type", typeof res.body);
-          console.log("res.body", res.body);
           expect(res.status).to.equal(200);
           expect(res.body).to.deep.equal({
             result: "successfully updated",
-            _id: "60b9e314cb6edd3854a45924",
+            _id: dummy_id,
           });
           done();
         });

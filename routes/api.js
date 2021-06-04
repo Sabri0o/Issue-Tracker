@@ -20,7 +20,7 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
               assigned_to: issue.assignedTo,
               status_text: issue.statusText,
             });
-            // if project exists we push the new issue to its project_tracker  
+            // if project exists we push the new issue to its project_tracker
             if (record) {
               record.project_tracker.push(newIssue);
               record.save((err, data) => {
@@ -79,27 +79,23 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
 
     .put(function (req, res) {
       let project = req.params.project;
-      console.log("body,", req.body);
-      let issue_id = req.body._id;
-      delete req.body._id;
-      // console.log("issue_id,", issue_id);
-      // console.log("query,", req.query);
       if (!project) {
         res.json({ error: "project name is missing" });
-      } else if (!issue_id) {
+      } else if (!req.body._id) {
         res.json({ error: "missing _id" });
       } else if (JSON.stringify(req.body) === "{}") {
-        res.json({ error: "no update field(s) sent", _id: issue_id });
+        res.json({ error: "no update field(s) sent", _id: req.body._id });
       } else {
         ProjectTrackerModel.findOne({ project: project })
           .then((project) => {
             if (!project) {
               res.json({ error: "project doesn't exist" });
             } else {
-              // good ressource
+              // good resource
               // https://dev.to/danimalphantom/adding-updating-and-removing-subdocuments-with-mongoose-1dj5
               // find corresponding issue ticket and updating it
-              let updated = project.project_tracker.id(issue_id);
+
+              let updated = project.project_tracker.id(req.body._id);
               for (field in req.body) {
                 updated[field] = req.body[field];
               }
@@ -108,8 +104,11 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
                 if (err) {
                   res.json("error while saving changes");
                 } else {
-                  console.log(result);
-                  res.json({ result: "successfully updated", _id: issue_id });
+                  // console.log(result);
+                  res.json({
+                    result: "successfully updated",
+                    _id: req.body._id,
+                  });
                 }
               });
             }
