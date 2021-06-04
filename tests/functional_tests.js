@@ -170,6 +170,32 @@ describe("Functional tests", function () {
     });
   });
 
+  describe("Update requests tests", function () {
+    it("should update one field on an issue: PUT request to /api/issues/{project}", function (done) {
+      this.timeout(10000);
+      chai
+        .request(server)
+        .put("/api/issues/project_XY?")
+        .send({
+          _id: "60b9e314cb6edd3854a45924",
+          open: 'false',
+          issue_text: "executing",
+          assigned_to: "mister X",
+          status_text: "no more killing"
+        })
+        .end((err, res) => {
+          // console.log("res.body type", typeof res.body);
+          console.log("res.body", res.body);
+          expect(res.status).to.equal(200);
+          expect(res.body).to.deep.equal({
+            result: "successfully updated",
+            _id: "60b9e314cb6edd3854a45924",
+          });
+          done();
+        });
+    });
+  });
+
   //After all tests are finished close connection
   after(function (done) {
     console.log("disconnecting db");

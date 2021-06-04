@@ -30,7 +30,7 @@ mongoose.connect(
       console.log("Error connecting to the database. " + err);
     } else {
       console.log(
-        "Connected to Database: " + config.mongoURI[app.settings.env]
+        "Connected to Database: " + app.settings.env
       );
     }
   }

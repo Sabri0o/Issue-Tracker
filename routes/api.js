@@ -56,7 +56,7 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
     .get(function (req, res) {
       let project = req.params.project;
       let query = req.query;
-      console.log(query);
+      // console.log(query);
       // find the specific project
       ProjectTrackerModel.findOne({ project: project })
         .then((record) => {
@@ -79,16 +79,16 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
 
     .put(function (req, res) {
       let project = req.params.project;
-      console.log("query,", req.query);
-      let issue_id = req.query._id;
-      delete req.query._id;
-      console.log("issue_id,", issue_id);
-      console.log("query,", req.query);
+      console.log("body,", req.body);
+      let issue_id = req.body._id;
+      delete req.body._id;
+      // console.log("issue_id,", issue_id);
+      // console.log("query,", req.query);
       if (!project) {
         res.json({ error: "project name is missing" });
       } else if (!issue_id) {
         res.json({ error: "missing _id" });
-      } else if (JSON.stringify(req.query) === "{}") {
+      } else if (JSON.stringify(req.body) === "{}") {
         res.json({ error: "no update field(s) sent", _id: issue_id });
       } else {
         ProjectTrackerModel.findOne({ project: project })
@@ -100,8 +100,8 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
               // https://dev.to/danimalphantom/adding-updating-and-removing-subdocuments-with-mongoose-1dj5
               // find corresponding issue ticket and updating it
               let updated = project.project_tracker.id(issue_id);
-              for (field in req.query) {
-                updated[field] = req.query[field];
+              for (field in req.body) {
+                updated[field] = req.body[field];
               }
               // saving project
               project.save((err, result) => {
@@ -116,7 +116,7 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
           })
           .catch((err) => {
             console.log("error: ", err.message);
-            res.json({ error: "could not update", _id: _id });
+            res.json({ error: "could not update", _id: issue_id });
           });
       }
     })
