@@ -9,11 +9,6 @@ const ProjectTracker = require("../dbSchema").ProjectTrackerModel;
 const { ProjectTrackerModel, IssueTrackerModel } = require("../dbSchema");
 chai.use(chaiHttp);
 
-// Update one field on an issue: PUT request to /api/issues/{project}
-// Update multiple fields on an issue: PUT request to /api/issues/{project}
-// Update an issue with missing _id: PUT request to /api/issues/{project}
-// Update an issue with no fields to update: PUT request to /api/issues/{project}
-// Update an issue with an invalid _id: PUT request to /api/issues/{project}
 // Delete an issue: DELETE request to /api/issues/{project}
 // Delete an issue with an invalid _id: DELETE request to /api/issues/{project}
 // Delete an issue with missing _id: DELETE request to /api/issues/{project}
@@ -27,10 +22,10 @@ describe("Functional tests", function () {
     ProjectTracker.collection.drop();
     let dummyIssue = new IssueTrackerModel({
       issue_title: "issue title",
-      issue_text: "issue title",
+      issue_text: "issue text",
       created_by: "sabri0o",
-      assigned_to: "to you",
-      status_text: "take a rest",
+      assigned_to: "to everyone",
+      status_text: "cryptonite quest",
     });
 
     let dummyProject = new ProjectTrackerModel({
@@ -57,7 +52,7 @@ describe("Functional tests", function () {
         .post("/api/issues/project_XY?")
         .send({
           title: "ticket_X",
-          text: "testing",
+          text: "testing_X",
           createdBy: "sabri0o",
           assignedTo: "mister X",
           statusText: "kill everyone then kill yourself",
@@ -68,7 +63,7 @@ describe("Functional tests", function () {
           expect(res.status).to.equal(200);
           expect(res.body).to.have.property("open", true);
           expect(res.body).to.have.property("issue_title", "ticket_X");
-          expect(res.body).to.have.property("issue_text", "testing");
+          expect(res.body).to.have.property("issue_text", "testing_X");
           expect(res.body).to.have.property("created_by", "sabri0o");
           expect(res.body).to.have.property("assigned_to", "mister X");
           expect(res.body).to.have.property(
@@ -88,7 +83,7 @@ describe("Functional tests", function () {
         .post("/api/issues/project_XY?")
         .send({
           title: "ticket_Y",
-          text: "testing",
+          text: "testing_Y",
           createdBy: "sabri0o",
         })
         .end((err, res) => {
@@ -97,7 +92,7 @@ describe("Functional tests", function () {
           expect(res.status).to.equal(200);
           expect(res.body).to.have.property("open", true);
           expect(res.body).to.have.property("issue_title", "ticket_Y");
-          expect(res.body).to.have.property("issue_text", "testing");
+          expect(res.body).to.have.property("issue_text", "testing_Y");
           expect(res.body).to.have.property("created_by", "sabri0o");
           expect(res.body).to.have.property("assigned_to", "");
           expect(res.body).to.have.property("status_text", "");
@@ -155,7 +150,7 @@ describe("Functional tests", function () {
         .request(server)
         .get("/api/issues/project_XY?")
         .query({
-          issue_text: "testing",
+          issue_text: "testing_X",
         })
         .end((err, res) => {
           // console.log("res.body type", typeof res.body);
@@ -163,7 +158,7 @@ describe("Functional tests", function () {
           expect(res.status).to.equal(200);
           expect(res.body).to.be.an.instanceof(Array);
           for (let issue of res.body) {
-            expect(issue).to.have.property("issue_text", "testing");
+            expect(issue).to.have.property("issue_text", "testing_X");
           }
           done();
         });
@@ -175,8 +170,8 @@ describe("Functional tests", function () {
         .request(server)
         .get("/api/issues/project_XY?")
         .query({
-          issue_text: "testing",
-          assigned_to: "mister X",
+          issue_text: "testing_Y",
+          assigned_to: "",
         })
         .end((err, res) => {
           // console.log("res.body type", typeof res.body);
@@ -184,8 +179,8 @@ describe("Functional tests", function () {
           expect(res.status).to.equal(200);
           expect(res.body).to.be.an.instanceof(Array);
           for (let issue of res.body) {
-            expect(issue).to.have.property("issue_text", "testing");
-            expect(issue).to.have.property("assigned_to", "mister X");
+            expect(issue).to.have.property("issue_text", "testing_Y");
+            expect(issue).to.have.property("assigned_to", "");
           }
           done();
         });
@@ -201,15 +196,89 @@ describe("Functional tests", function () {
         .send({
           _id: dummy_id,
           open: false,
-          issue_text: "executing",
-          assigned_to: "mister X",
-          status_text: "enough killing",
         })
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body).to.deep.equal({
             result: "successfully updated",
             _id: dummy_id,
+          });
+          done();
+        });
+    });
+
+    it("should update multiple fields on an issue: PUT request to /api/issues/{project}", function (done) {
+      this.timeout(10000);
+      chai
+        .request(server)
+        .put("/api/issues/project_XY?")
+        .send({
+          _id: dummy_id,
+          open: false,
+          issue_text: "executing",
+          assigned_to: "mister X",
+          status_text: "done",
+        })
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body).to.deep.equal({
+            result: "successfully updated",
+            _id: dummy_id,
+          });
+          done();
+        });
+    });
+
+    it("should update an issue with missing _id: PUT request to /api/issues/{project}", function (done) {
+      this.timeout(10000);
+      chai
+        .request(server)
+        .put("/api/issues/project_XY?")
+        .send({
+          open: false,
+          issue_text: "executing",
+          assigned_to: "mister X",
+          status_text: "done",
+        })
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body).to.deep.equal({ error: "missing _id" });
+          done();
+        });
+    });
+
+    it("should update an issue with no fields to update: PUT request to /api/issues/{project}", function (done) {
+      this.timeout(10000);
+      chai
+        .request(server)
+        .put("/api/issues/project_XY?")
+        .send({
+          _id: dummy_id,
+        })
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body).to.deep.equal({
+            error: "no update field(s) sent",
+            _id: dummy_id,
+          });
+          done();
+        });
+    });
+
+    it("should update an issue with an invalid _id: PUT request to /api/issues/{project}", function (done) {
+      this.timeout(10000);
+      chai
+        .request(server)
+        .put("/api/issues/project_XY?")
+        .send({
+          _id: "60b8e7e74d551e44144b4c29",
+          assigned_to:"mister Z"
+        })
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body).to.deep.equal({
+            error: "could not update",
+            _id: "60b8e7e74d551e44144b4c29",
           });
           done();
         });

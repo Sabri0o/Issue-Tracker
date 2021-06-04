@@ -79,12 +79,14 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
 
     .put(function (req, res) {
       let project = req.params.project;
+      let issue_id = req.body._id;
+      delete req.body._id;
       if (!project) {
         res.json({ error: "project name is missing" });
-      } else if (!req.body._id) {
+      } else if (!issue_id) {
         res.json({ error: "missing _id" });
       } else if (JSON.stringify(req.body) === "{}") {
-        res.json({ error: "no update field(s) sent", _id: req.body._id });
+        res.json({ error: "no update field(s) sent", _id: issue_id });
       } else {
         ProjectTrackerModel.findOne({ project: project })
           .then((project) => {
@@ -95,7 +97,7 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
               // https://dev.to/danimalphantom/adding-updating-and-removing-subdocuments-with-mongoose-1dj5
               // find corresponding issue ticket and updating it
 
-              let updated = project.project_tracker.id(req.body._id);
+              let updated = project.project_tracker.id(issue_id);
               for (field in req.body) {
                 updated[field] = req.body[field];
               }
@@ -107,7 +109,7 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
                   // console.log(result);
                   res.json({
                     result: "successfully updated",
-                    _id: req.body._id,
+                    _id: issue_id,
                   });
                 }
               });
