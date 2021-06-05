@@ -57,8 +57,8 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
       let project = req.params.project || req.query.project;
       let query = req.query;
       delete query.project
-      // console.log(query);
-      // console.log('project',project);
+      console.log(query);
+      console.log('project',project);
       
       // find the specific project
       ProjectTrackerModel.findOne({ project: project })

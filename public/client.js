@@ -1,6 +1,8 @@
 $(document).ready(function () {
   console.log("ready!");
   $(".issueOperation").hide();
+  $(".searchField").hide();
+
   $("#init").addClass("active");
   $("#projectIssues").show();
 
@@ -16,17 +18,28 @@ $(document).ready(function () {
     evt.target.className += " active";
   };
 
+  toggle = function (evt) {
+    // console.log(evt.target.id);
+    let input = $(`#${evt.target.id}`);
+    if (input.prop("checked") == true) {
+      $(`.${evt.target.id}`).show();
+    } else {
+      $(`.${evt.target.id}`).hide();
+    }
+  };
+
   // serialize the form
   $("form").on("submit", function (event) {
     event.preventDefault();
     console.log(event.target);
-    let encoded = $(this).serialize()
-    console.log("encoded:",encoded);
+    let encoded = $(this).serialize();
+    console.log("encoded:", encoded);
 
-    // $.get("/api/issues/?", $(this).serialize(), function (result) {
-    //   console.log(result);
-    // });
+    $.get("/api/issues/?", encoded, function (result) {
+      console.log(result);
+      for (let i = 0; i < 5; i++) {
+        $("#issueCards").append("<li>" + 'bjahdhdhchjdj' + "</li>");
+      }
+    });
   });
 });
-
-

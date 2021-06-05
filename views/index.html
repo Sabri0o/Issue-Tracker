@@ -43,31 +43,56 @@
 
                     <div class='searchForm'>
                         <div class="mb-3">
-                            <label class="form-label">Search by "title"</label>
-                            <input name='issue_title' type="text" class="form-control">
+                            <div class="form-check mb-3">
+                                <input id='titleSearchField' class="form-check-input" type="checkbox"
+                                    onclick="toggle(event)">
+                                <label class="form-check-label">
+                                    Search by "title"
+                                </label>
+                            </div>
+                            <div class='searchField titleSearchField'>
+                                <input name='issue_title' type="text" class="form-control">
+                            </div>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Search by "created by"</label>
-                            <input name='created_by' type="text" class="form-control">
+                            <div class="form-check mb-3">
+                                <input id='createdBySearchField' class="form-check-input" type="checkbox"
+                                    onclick="toggle(event)">
+                                <label class="form-check-label">
+                                    Search by "created by"
+                                </label>
+                            </div>
+                            <div class='searchField createdBySearchField'>
+                                <input name='created_by' type="text" class="form-control">
+                            </div>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Search by "assigned to"</label>
-                            <input name='assigned_to' type="text" class="form-control">
+
+                            <div class="form-check mb-3">
+                                <input id='assignedToSearchField' class="form-check-input" type="checkbox"
+                                    onclick="toggle(event)">
+                                <label class="form-check-label">
+                                    Search by "assign to"
+                                </label>
+                            </div>
+                            <div class='searchField assignedToSearchField'>
+                                <input name='assigned_to' type="text" class="form-control">
+                            </div>
                         </div>
 
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="open" value="true" checked>
+                            <input class="form-check-input" type="radio" name="open" value="true" checked>
                             <label class="form-check-label">
-                                Open
+                                Open tickets
                             </label>
                         </div>
 
                         <div class="form-check mb-3">
-                            <input class="form-check-input" type="checkbox" name="open" value="false">
+                            <input class="form-check-input" type="radio" name="open">
                             <label class="form-check-label">
-                                Closed
+                                Closed tickets
                             </label>
                         </div>
 
@@ -77,7 +102,10 @@
 
                 </form>
             </div>
-            <div id="issueCards" class="col-8"></div>
+            <div class="col-8">
+                <ul id="issueCards">
+                </ul>
+            </div>
         </div>
     </div>
 
