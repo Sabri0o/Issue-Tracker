@@ -16,7 +16,7 @@
     <div class="tabs">
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a id='init' class="nav-link" onclick="openTab(event,'projectIssues')">Project's issues</a>
+                <a id='init' class="nav-link" onclick="openTab(event,'projectIssues')">View issues</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" onclick="openTab(event,'submitNewIssue')">Submit new issue</a>
@@ -39,65 +39,64 @@
                         <input name='project' type="text" class="form-control" id="projectName">
                     </div>
 
-                    
+
                     <div class='searchForm'>
                         <div class="mb-3">
                             <div class="form-check mb-3">
                                 <input id='titleSearchField' class="form-check-input" type="checkbox"
                                     onclick="toggle(event)">
-                                    <label class="form-check-label">
+                                <label class="form-check-label">
                                     Search by "title"
                                 </label>
                             </div>
                             <div class='searchField titleSearchField'>
-                                <input name='issue_title' type="text" class="form-control">
+                                <input id='issue_title' type="text" class="form-control">
                             </div>
                         </div>
-                        
+
                         <div class="mb-3">
                             <div class="form-check mb-3">
                                 <input id='createdBySearchField' class="form-check-input" type="checkbox"
                                     onclick="toggle(event)">
-                                    <label class="form-check-label">
-                                        Search by "created by"
-                                    </label>
-                                </div>
-                                <div class='searchField createdBySearchField'>
-                                    <input name='created_by' type="text" class="form-control">
-                                </div>
-                            </div>
-                            
-                            <div class="mb-3">
-                                
-                                <div class="form-check mb-3">
-                                    <input id='assignedToSearchField' class="form-check-input" type="checkbox"
-                                    onclick="toggle(event)">
-                                    <label class="form-check-label">
-                                        Search by "assign to"
-                                    </label>
-                                </div>
-                                <div class='searchField assignedToSearchField'>
-                                    <input name='assigned_to' type="text" class="form-control">
-                                </div>
-                            </div>
-                            
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="open" value="true" checked>
                                 <label class="form-check-label">
-                                    Open tickets
+                                    Search by "created by"
                                 </label>
                             </div>
-                            
-                            <div class="form-check mb-3">
-                                <input class="form-check-input" type="radio" name="open">
-                                <label class="form-check-label">
-                                    Closed tickets
-                                </label>
+                            <div class='searchField createdBySearchField'>
+                                <input id='created_by' type="text" class="form-control">
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit/Refresh</button>
-                    </form>
-                    
+
+                        <div class="mb-3">
+
+                            <div class="form-check mb-3">
+                                <input id='assignedToSearchField' class="form-check-input" type="checkbox"
+                                    onclick="toggle(event)">
+                                <label class="form-check-label">
+                                    Search by "assign to"
+                                </label>
+                            </div>
+                            <div class='searchField assignedToSearchField'>
+                                <input id='assigned_to' type="text" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" id='ticket' name="ticket" checked>
+                            <label class="form-check-label">
+                                Opened ticket
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="ticket">
+                            <label class="form-check-label">
+                                Closed ticket
+                            </label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit/Refresh</button>
+                </form>
+
             </div>
             <div class="col-8">
                 <ul id="issueCards">

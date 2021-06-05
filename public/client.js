@@ -28,20 +28,34 @@ $(document).ready(function () {
     }
   };
 
-  // serialize the form
+  // view issues form
   $("form").on("submit", function (event) {
     event.preventDefault();
     console.log(event.target);
-    let encoded = $(this).serialize();
-    console.log("encoded:", encoded);
-
-    $.get("/api/issues/?", encoded, function (result) {
+    let query = {};
+    query.project = $('#projectName').val()
+    if ($("#titleSearchField").prop("checked") == true) {
+      query.issue_title = $("#issue_title").val();
+    }
+    if ($("#createdBySearchField").prop("checked") == true) {
+      query.created_by = $("#created_by").val();
+    }
+    if ($("#assignedToSearchField").prop("checked") == true) {
+      query.assigned_to = $("#assigned_to").val();
+    }
+    if ($("#ticket").prop("checked") == true) {
+      query.open = "true";
+    } else {
+      query.open = "false";
+    }
+    console.log("query:", query);
+    $(".lists").remove();
+    $.get("/api/issues/?", query, function (result) {
       console.log(result);
       // testing
-      $(".lists").remove();
-      for (let i = 0; i < 5; i++) {
+      for (issue in result ) {
         $("#issueCards").append(
-          "<li>" +
+          "<li class='lists'>" +
             `<div class="card">
         <h5 class="card-header">Featured</h5>
         <div class="card-body">
