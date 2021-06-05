@@ -2,7 +2,7 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
   app
     .route("/api/issues/:project?")
     .post(function (req, res) {
-      let project = req.params.project || req.body.project
+      let project = req.params.project || req.body.project;
       let issue = req.body;
       // console.log(issue);
       // checking required fields
@@ -56,28 +56,31 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
     .get(function (req, res) {
       let project = req.params.project || req.query.project;
       let query = req.query;
-      delete query.project
+      delete query.project;
       console.log(query);
-      console.log('project',project);
-      
-      // find the specific project
-      ProjectTrackerModel.findOne({ project: project })
-        .then((record) => {
-          // filtering the project_tracker property based on the query
-          let filtred = record.project_tracker.filter((issue) => {
-            for (key in query) {
-              if (query[key] !== issue[key].toString()) {
-                return false;
+      console.log("project", project);
+      if (!project) {
+        res.json("project name is missing");
+      } else {
+        // find the specific project
+        ProjectTrackerModel.findOne({ project: project })
+          .then((record) => {
+            // filtering the project_tracker property based on the query
+            let filtred = record.project_tracker.filter((issue) => {
+              for (key in query) {
+                if (query[key] !== issue[key].toString()) {
+                  return false;
+                }
               }
-            }
-            return true;
+              return true;
+            });
+            res.json(filtred);
+          })
+          .catch((err) => {
+            console.log("error:", err.message);
+            res.json(err.message);
           });
-          res.json(filtred);
-        })
-        .catch((err) => {
-          console.log("error:", err.message);
-          res.json(err.message);
-        });
+      }
     })
 
     .put(function (req, res) {
