@@ -37,8 +37,9 @@ $(document).ready(function () {
 
     $.get("/api/issues/?", encoded, function (result) {
       console.log(result);
+      // testing
       for (let i = 0; i < 5; i++) {
-        $("#issueCards").append("<li>" + 'bjahdhdhchjdj' + "</li>");
+        $("#issueCards").append("<li>" + "bjahdhdhchjdj" + "</li>");
       }
     });
   });

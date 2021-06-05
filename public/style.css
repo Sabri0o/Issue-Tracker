@@ -14,3 +14,8 @@ p {
 .searchForm {
   margin: 30px;
 }
+
+.col-8 {
+  display: flex;
+  justify-content: center;
+}
