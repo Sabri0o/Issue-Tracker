@@ -2,7 +2,7 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
   app
     .route("/api/issues/:project?")
     .post(function (req, res) {
-      let project = req.params.project;
+      let project = req.params.project || req.body.project
       let issue = req.body;
       // console.log(issue);
       // checking required fields
@@ -54,9 +54,12 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
     })
 
     .get(function (req, res) {
-      let project = req.params.project;
+      let project = req.params.project || req.query.project;
       let query = req.query;
+      delete query.project
       // console.log(query);
+      // console.log('project',project);
+      
       // find the specific project
       ProjectTrackerModel.findOne({ project: project })
         .then((record) => {

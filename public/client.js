@@ -15,4 +15,18 @@ $(document).ready(function () {
     $(`#${issueOp}`).show();
     evt.target.className += " active";
   };
+
+  // serialize the form
+  $("form").on("submit", function (event) {
+    event.preventDefault();
+    console.log(event.target);
+    let encoded = $(this).serialize()
+    console.log("encoded:",encoded);
+
+    // $.get("/api/issues/?", $(this).serialize(), function (result) {
+    //   console.log(result);
+    // });
+  });
 });
+
+

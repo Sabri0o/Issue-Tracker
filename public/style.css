@@ -3,10 +3,14 @@ p {
   background-color: #f1f1f1;
 }
 
-.formContainer{
-  margin: 35px;
+.formContainer {
+  margin: 30px;
 }
 
-.tabs{
+.tabs {
   margin-top: 15px;
+}
+
+.searchForm {
+  margin: 30px;
 }
