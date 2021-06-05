@@ -41,7 +41,7 @@ $(document).ready(function () {
       $(".lists").remove();
       for (let i = 0; i < 5; i++) {
         $("#issueCards").append(
-          "<li class='lists'>" +
+          "<li>" +
             `<div class="card">
         <h5 class="card-header">Featured</h5>
         <div class="card-body">
