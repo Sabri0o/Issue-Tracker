@@ -31,7 +31,7 @@ $(document).ready(function () {
   // view issues form
   $("#issueViewer").on("submit", function (event) {
     event.preventDefault();
-    console.log(event.target);
+    // console.log(event.target);
     let query = {};
     query.project = $("#projectName").val();
     if ($("#titleSearchField").prop("checked") == true) {
@@ -48,7 +48,7 @@ $(document).ready(function () {
     } else {
       query.open = "false";
     }
-    console.log("query:", query);
+    // console.log("query:", query);
     $(".lists").remove();
     $.get("/api/issues/?", query, function (result) {
       console.log("result:", result);
@@ -89,16 +89,39 @@ $(document).ready(function () {
     });
   });
 
-  $("#submitNewIssue").on("submit", function (event) {
+  $("#submitIssue").on("submit", function (event) {
     event.preventDefault();
-    // console.log(event.target);
-    // console.log($(`#${event.target.id}`));
+
     let query = $(this).serialize();
-    console.log(query);
+    // console.log("query:", query);
+    $(".newIssue").remove();
 
     $.post("/api/issues/?", query, function (result) {
       console.log("result:", result);
-      console.log("result length:", result.length);
+
+      if (!("error" in result)) {
+        $("#updatedIssue").append(
+          "<li class='newIssue'>" +
+            `<div class="card">
+      <h5 class="card-header">IssueID: ${result._id}  ${
+              result.open ? "Opened" : "Closed"
+            }</h5>
+      <div class="card-body">
+        <h5 class="card-title">title: ${result.issue_title}</h5>
+        <p class="card-text"><b>status text:</b> ${result.status_text}</p>
+        <p class="card-text"><b>created by:</b> ${
+          result.created_by
+        } and <b>assigned to:</b> ${result.assigned_to}</p>
+        <p class="card-text"><b>created on:</b> ${
+          result.created_on
+        }  <b>last update:</b>${result.updated_on}</p>
+      </div>
+    </div>` +
+            "</li>"
+        );
+      } else {
+        $("#updatedIssue").append("<li class='newIssue'>" + `${result.error}` + "</li>");
+      }
     });
   });
 });

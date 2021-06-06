@@ -105,41 +105,51 @@
         </div>
     </div>
 
+
+
     <div class='formContainer'>
-        <form id="submitNewIssue" class="issueOperation">
-            <div class="mb-3">
-                <label for="projectName" class="form-label">Project name</label>
-                <input name='project' type="text" class="form-control" id="projectName" required>
+        <div id="submitNewIssue" class="row issueOperation">
+            <div class="col-4">
+                <form id='submitIssue'>
+                    <div class="mb-3">
+                        <label for="projectName" class="form-label">Project name</label>
+                        <input name='project' type="text" class="form-control" id="projectName" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Issue title</label>
+                        <input name='issue_title' type="text" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Issue text</label>
+                        <input name='issue_text' type="text" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Created by</label>
+                        <input name='created_by' type="text" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Assigned to</label>
+                        <input name='assigned_to' type="text" class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Status Text</label>
+                        <textarea name='status_text' type="text" class="form-control" rows="3"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Submit new issue</button>
+
+                </form>
             </div>
-
-            <div class="mb-3">
-                <label class="form-label">Issue title</label>
-                <input name='issue_title' type="text" class="form-control" required>
+            <div class="col-8">
+                <ul id="updatedIssue">
+                </ul>
             </div>
-
-            <div class="mb-3">
-                <label class="form-label">Issue text</label>
-                <input name='issue_text' type="text" class="form-control" required>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Created by</label>
-                <input name='created_by' type="text" class="form-control" required>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Assigned to</label>
-                <input name='assigned_to' type="text" class="form-control">
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Status Text</label>
-                <textarea name='status_text' type="text" class="form-control" rows="3"></textarea>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Submit new issue</button>
-
-        </form>
+        </div>
     </div>
 
     <div class='formContainer'>

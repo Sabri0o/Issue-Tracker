@@ -3,7 +3,7 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
     .route("/api/issues/:project?")
     .post(function (req, res) {
       let project = req.params.project || req.body.project;
-      // console.log(req.body);
+      // console.log('req.body:',req.body);
       // checking required fields
       if (!req.body.issue_title || !req.body.issue_text || !req.body.created_by) {
         res.json({ error: "required field(s) missing" });
@@ -101,7 +101,6 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
               // good resource
               // https://dev.to/danimalphantom/adding-updating-and-removing-subdocuments-with-mongoose-1dj5
               // find corresponding issue ticket and updating it
-
               let updated = project.project_tracker.id(issue_id);
               for (field in req.body) {
                 updated[field] = req.body[field];
