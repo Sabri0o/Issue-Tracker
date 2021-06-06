@@ -15,6 +15,10 @@ p {
   margin: 30px;
 }
 
+.subUpdateForm {
+  margin: 30px;
+}
+
 .col-8 {
   display: flex;
   justify-content: center;

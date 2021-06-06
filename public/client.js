@@ -50,16 +50,17 @@ $(document).ready(function () {
     }
     // console.log("query:", query);
     $(".lists").remove();
+    $("#issueCards").append("<li class='lists'>" + `Searching...` + "</li>");
     $.get("/api/issues/?", query, function (result) {
       console.log("result:", result);
       console.log("result length:", result.length);
+      $(".lists").remove();
       if (Array.isArray(result)) {
         if (Array.isArray(result) && result.length === 0) {
           $("#issueCards").append(
             "<li class='lists'>" + `no results` + "</li>"
           );
         } else {
-          // testing
           for (let issue of result) {
             console.log("issue", issue);
             $("#issueCards").append(
@@ -89,6 +90,7 @@ $(document).ready(function () {
     });
   });
 
+  // submit new issue form
   $("#submitIssue").on("submit", function (event) {
     event.preventDefault();
 
@@ -100,7 +102,7 @@ $(document).ready(function () {
       console.log("result:", result);
 
       if (!("error" in result)) {
-        $("#updatedIssue").append(
+        $("#submittedIssue").append(
           "<li class='newIssue'>" +
             `<div class="card">
       <h5 class="card-header">IssueID: ${result._id}  ${
@@ -120,8 +122,48 @@ $(document).ready(function () {
             "</li>"
         );
       } else {
-        $("#updatedIssue").append("<li class='newIssue'>" + `${result.error}` + "</li>");
+        $("#submittedIssue").append(
+          "<li class='newIssue'>" + `${result.error}` + "</li>"
+        );
       }
     });
+  });
+
+  // update issue form
+  $("#updateForm").on("submit", function (event) {
+    event.preventDefault();
+
+    let query = $(this).serialize();
+    console.log("query:", query);
+
+    //   $.post("/api/issues/?", query, function (result) {
+    //     console.log("result:", result);
+
+    //     if (!("error" in result)) {
+    //       $("#submittedIssue").append(
+    //         "<li class='newIssue'>" +
+    //           `<div class="card">
+    //     <h5 class="card-header">IssueID: ${result._id}  ${
+    //             result.open ? "Opened" : "Closed"
+    //           }</h5>
+    //     <div class="card-body">
+    //       <h5 class="card-title">title: ${result.issue_title}</h5>
+    //       <p class="card-text"><b>status text:</b> ${result.status_text}</p>
+    //       <p class="card-text"><b>created by:</b> ${
+    //         result.created_by
+    //       } and <b>assigned to:</b> ${result.assigned_to}</p>
+    //       <p class="card-text"><b>created on:</b> ${
+    //         result.created_on
+    //       }  <b>last update:</b>${result.updated_on}</p>
+    //     </div>
+    //   </div>` +
+    //           "</li>"
+    //       );
+    //     } else {
+    //       $("#submittedIssue").append(
+    //         "<li class='newIssue'>" + `${result.error}` + "</li>"
+    //       );
+    //     }
+    //   });
   });
 });
