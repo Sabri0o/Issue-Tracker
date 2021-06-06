@@ -97,9 +97,13 @@ $(document).ready(function () {
     let query = $(this).serialize();
     // console.log("query:", query);
     $(".newIssue").remove();
+    $("#submittedIssue").append(
+      "<li class='newIssue'>" + `Processing...` + "</li>"
+    );
 
     $.post("/api/issues/?", query, function (result) {
       console.log("result:", result);
+      $(".newIssue").remove();
 
       if (!("error" in result)) {
         $("#submittedIssue").append(
@@ -136,34 +140,20 @@ $(document).ready(function () {
     let query = $(this).serialize();
     console.log("query:", query);
 
-    //   $.post("/api/issues/?", query, function (result) {
-    //     console.log("result:", result);
+    $(".updating").remove();
+    $("#updatedIssue").append("<li class='updating'>" + `Processing...` + "</li>");
 
-    //     if (!("error" in result)) {
-    //       $("#submittedIssue").append(
-    //         "<li class='newIssue'>" +
-    //           `<div class="card">
-    //     <h5 class="card-header">IssueID: ${result._id}  ${
-    //             result.open ? "Opened" : "Closed"
-    //           }</h5>
-    //     <div class="card-body">
-    //       <h5 class="card-title">title: ${result.issue_title}</h5>
-    //       <p class="card-text"><b>status text:</b> ${result.status_text}</p>
-    //       <p class="card-text"><b>created by:</b> ${
-    //         result.created_by
-    //       } and <b>assigned to:</b> ${result.assigned_to}</p>
-    //       <p class="card-text"><b>created on:</b> ${
-    //         result.created_on
-    //       }  <b>last update:</b>${result.updated_on}</p>
-    //     </div>
-    //   </div>` +
-    //           "</li>"
-    //       );
-    //     } else {
-    //       $("#submittedIssue").append(
-    //         "<li class='newIssue'>" + `${result.error}` + "</li>"
-    //       );
-    //     }
-    //   });
+    $.ajax({
+      url: "/api/issues/?",
+      type: "PUT",
+      data: query,
+      success: function (result) {
+        console.log("result:", result);
+        $(".updating").remove();
+        $("#updatedIssue").append(
+          "<li class='updating'>" + `${result.error ? result.error : result.result}` + "</li>"
+        );
+      },
+    });
   });
 });

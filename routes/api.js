@@ -83,9 +83,13 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
     })
 
     .put(function (req, res) {
-      let project = req.params.project;
+      let project = req.params.project || req.body.project;
       let issue_id = req.body._id;
+      console.log(issue_id)
+
       delete req.body._id;
+      delete req.body.project;
+      console.log(req.body)
       if (!project) {
         res.json({ error: "project name is missing" });
       } else if (!issue_id) {
@@ -108,7 +112,7 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
               // saving project
               project.save((err, result) => {
                 if (err) {
-                  res.json("error while saving changes");
+                  res.json({ error: "error while saving changes" });
                 } else {
                   // console.log(result);
                   res.json({
