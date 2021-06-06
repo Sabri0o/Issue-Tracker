@@ -29,7 +29,7 @@ $(document).ready(function () {
   };
 
   // view issues form
-  $("form").on("submit", function (event) {
+  $("#issueViewer").on("submit", function (event) {
     event.preventDefault();
     console.log(event.target);
     let query = {};
@@ -86,6 +86,19 @@ $(document).ready(function () {
       } else {
         $("#issueCards").append("<li class='lists'>" + `${result}` + "</li>");
       }
+    });
+  });
+
+  $("#submitNewIssue").on("submit", function (event) {
+    event.preventDefault();
+    // console.log(event.target);
+    // console.log($(`#${event.target.id}`));
+    let query = $(this).serialize();
+    console.log(query);
+
+    $.post("/api/issues/?", query, function (result) {
+      console.log("result:", result);
+      console.log("result length:", result.length);
     });
   });
 });

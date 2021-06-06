@@ -3,10 +3,9 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
     .route("/api/issues/:project?")
     .post(function (req, res) {
       let project = req.params.project || req.body.project;
-      let issue = req.body;
-      // console.log(issue);
+      // console.log(req.body);
       // checking required fields
-      if (!issue.title || !issue.text || !issue.createdBy) {
+      if (!req.body.issue_title || !req.body.issue_text || !req.body.created_by) {
         res.json({ error: "required field(s) missing" });
       } else {
         //check if the project exists in db
@@ -14,11 +13,11 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
           .then((record) => {
             // creating new issue object
             let newIssue = new IssueTrackerModel({
-              issue_title: issue.title,
-              issue_text: issue.text,
-              created_by: issue.createdBy,
-              assigned_to: issue.assignedTo,
-              status_text: issue.statusText,
+              issue_title: req.body.issue_title,
+              issue_text: req.body.issue_text,
+              created_by: req.body.created_by,
+              assigned_to: req.body.assigned_to,
+              status_text: req.body.status_text,
             });
             // if project exists we push the new issue to its project_tracker
             if (record) {
@@ -57,8 +56,8 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
       let project = req.params.project || req.query.project;
       let query = req.query;
       delete query.project;
-      console.log(query);
-      console.log("project", project);
+      // console.log(query);
+      // console.log("project", project);
       if (!project) {
         res.json("project name is missing");
       } else {

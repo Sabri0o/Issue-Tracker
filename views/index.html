@@ -33,10 +33,10 @@
     <div class='formContainer'>
         <div id="projectIssues" class="row issueOperation">
             <div class="col-4">
-                <form>
+                <form id='issueViewer'>
                     <div class="mb-3">
                         <label for="projectName" class="form-label">Project name</label>
-                        <input name='project' type="text" class="form-control" id="projectName">
+                        <input name='project' type="text" class="form-control" id="projectName" required>
                     </div>
 
 
@@ -109,22 +109,22 @@
         <form id="submitNewIssue" class="issueOperation">
             <div class="mb-3">
                 <label for="projectName" class="form-label">Project name</label>
-                <input name='project' type="text" class="form-control" id="projectName">
+                <input name='project' type="text" class="form-control" id="projectName" required>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Title</label>
-                <input name='issue_title' type="text" class="form-control">
+                <label class="form-label">Issue title</label>
+                <input name='issue_title' type="text" class="form-control" required>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Text</label>
-                <input name='issue_text' type="text" class="form-control">
+                <label class="form-label">Issue text</label>
+                <input name='issue_text' type="text" class="form-control" required>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Created by</label>
-                <input name='created_by' type="text" class="form-control">
+                <input name='created_by' type="text" class="form-control" required>
             </div>
 
             <div class="mb-3">
@@ -137,7 +137,7 @@
                 <textarea name='status_text' type="text" class="form-control" rows="3"></textarea>
             </div>
 
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Submit new issue</button>
 
         </form>
     </div>
@@ -146,42 +146,47 @@
         <form id="updateIssue" class="issueOperation">
             <div class="mb-3">
                 <label for="projectName" class="form-label">Project name</label>
-                <input type="text" class="form-control" id="projectName">
+                <input type="text" class="form-control" id="projectName" required>
             </div>
 
             <div class="mb-3">
-                <label for="projectName" class="form-label">Title</label>
-                <input type="text" class="form-control" id="projectName">
+                <label for="issueID" class="form-label">IssueID</label>
+                <input type="text" class="form-control" id="issueID" required>
             </div>
 
             <div class="mb-3">
-                <label for="projectName" class="form-label">Text</label>
-                <input type="text" class="form-control" id="projectName">
+                <label for="projectName" class="form-label">Issue title</label>
+                <input type="text" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label for="projectName" class="form-label">Issue text</label>
+                <input type="text" class="form-control">
             </div>
 
             <div class="mb-3">
                 <label for="projectName" class="form-label">Created by</label>
-                <input type="text" class="form-control" id="projectName">
+                <input type="text" class="form-control">
             </div>
 
             <div class="mb-3">
                 <label for="projectName" class="form-label">Assigned to</label>
-                <input type="text" class="form-control" id="projectName">
+                <input type="text" class="form-control">
             </div>
 
             <div class="mb-3">
                 <label for="projectName" class="form-label">Status Text</label>
-                <input type="text" class="form-control" id="projectName">
+                <input type="text" class="form-control">
             </div>
 
             <div class="form-check mb-3">
                 <input class="form-check-input" type="checkbox" id="disabledFieldsetCheck">
                 <label class="form-check-label" for="disabledFieldsetCheck">
-                    Can't check this
+                    Close ticket
                 </label>
             </div>
 
-            <button type="submit" class="btn btn-primary">Update</button>
+            <button type="submit" class="btn btn-primary">Update issue</button>
         </form>
     </div>
 
@@ -189,7 +194,7 @@
         <form id="deleteIssue" class="issueOperation">
             <div class="mb-3">
                 <label for="projectName" class="form-label">Project name</label>
-                <input type="text" class="form-control" id="projectName">
+                <input type="text" class="form-control" id="projectName" required>
             </div>
 
             <div class="mb-3">
@@ -197,7 +202,7 @@
                 <input type="text" class="form-control" id="projectName">
             </div>
 
-            <button type="submit" class="btn btn-primary">Delete</button>
+            <button type="submit" class="btn btn-primary">Delete issue</button>
 
         </form>
     </div>
