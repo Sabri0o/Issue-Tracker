@@ -149,7 +149,7 @@
 
                     <div class="mb-3">
                         <label class="form-label">Status Text</label>
-                        <textarea name='status_text' type="text" class="form-control" rows="3"></textarea>
+                        <textarea name='status_text' type="text" class="form-control" rows="2"></textarea>
                     </div>
 
                     <button type="submit" class="btn btn-primary">Submit new issue</button>
@@ -168,12 +168,12 @@
                 <form id='updateForm'>
                     <div class="mb-3">
                         <label for="projectName" class="form-label">Project name</label>
-                        <input name='project' type="text" class="form-control" id="projectName" required>
+                        <input name='project' type="text" class="form-control" id="projectNameUpdate" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="issueID" class="form-label">IssueID</label>
-                        <input name='_id' type="text" class="form-control" id="issueID" required>
+                        <input name='_id' type="text" class="form-control" id="issueIDUpdate" required>
                     </div>
                     <div class=searchForm>
 
@@ -186,7 +186,7 @@
                                 </label>
                             </div>
                             <div class='searchField issue_titleUpdateField'>
-                                <input id='issue_title' type="text" class="form-control">
+                                <input id='issue_titleUpdate' type="text" class="form-control">
                             </div>
                         </div>
 
@@ -199,7 +199,7 @@
                                 </label>
                             </div>
                             <div class='searchField issue_textUpdateField'>
-                                <input id='issue_text' type="text" class="form-control">
+                                <input id='issue_textUpdate' type="text" class="form-control">
                             </div>
                         </div>
 
@@ -213,7 +213,7 @@
                                 </label>
                             </div>
                             <div class='searchField created_byUpdateField'>
-                                <input id='created_by' type="text" class="form-control">
+                                <input id='created_byUpdate' type="text" class="form-control">
                             </div>
                         </div>
 
@@ -226,7 +226,7 @@
                                 </label>
                             </div>
                             <div class='searchField assigned_toUpdateField'>
-                                <input id='assigned_to' type="text" class="form-control">
+                                <input id='assigned_toUpdate' type="text" class="form-control">
                             </div>
                         </div>
 
@@ -240,15 +240,14 @@
                                 </label>
                             </div>
                             <div class='searchField status_textUpdateField'>
-                                <textarea id='status_text' type="text" class="form-control"></textarea>
+                                <textarea id='status_textUpdate' type="text" class="form-control"></textarea>
                             </div>
                         </div>
 
 
 
                         <div class="form-check mb-3">
-                            <input name='open' class="form-check-input" type="checkbox" id="disabledFieldsetCheck"
-                                value='false'>
+                            <input name='open' class="form-check-input" type="checkbox" id="closeTicket">
                             <label class="form-check-label" for="disabledFieldsetCheck">
                                 Close ticket
                             </label>

@@ -12,11 +12,15 @@ p {
 }
 
 .searchForm {
-  margin: 30px;
+  margin: 20px;
 }
 
 .subUpdateForm {
-  margin: 30px;
+  margin: 20px;
+}
+
+#submitIssue {
+  /* margin: 20px; */
 }
 
 .col-8 {
@@ -26,6 +30,12 @@ p {
   height: 500px;
   overflow: auto;
   text-align: justify;
+}
+
+.col-4 {
+  width: auto;
+  height: 600px;
+  overflow: auto;
 }
 
 .card {

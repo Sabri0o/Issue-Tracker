@@ -2,16 +2,13 @@ $(document).ready(function () {
   console.log("ready!");
   $(".issueOperation").hide();
   $(".searchField").hide();
-
   $("#init").addClass("active");
   $("#projectIssues").show();
 
   openTab = function (evt, issueOp) {
     $("#init").removeClass("active");
-
     // Get all elements with class="issueOperation" and hide them
     $(".issueOperation").hide();
-
     $(".nav-link").removeClass("active");
     // Show the current tab, and add an "active" class to the button that opened the tab
     $(`#${issueOp}`).show();
@@ -34,6 +31,10 @@ $(document).ready(function () {
     // console.log(event.target);
     let query = {};
     query.project = $("#projectName").val();
+    if ($("#idSearchField").prop("checked") == true) {
+      query._id = $("#_id").val();
+    }
+    query.project = $("#projectName").val();
     if ($("#titleSearchField").prop("checked") == true) {
       query.issue_title = $("#issue_title").val();
     }
@@ -48,7 +49,7 @@ $(document).ready(function () {
     } else {
       query.open = "false";
     }
-    // console.log("query:", query);
+    console.log("query:", query);
     $(".lists").remove();
     $("#issueCards").append("<li class='lists'>" + `Searching...` + "</li>");
     $.get("/api/issues/?", query, function (result) {
@@ -71,6 +72,7 @@ $(document).ready(function () {
                 }</h5>
           <div class="card-body">
             <h5 class="card-title">title: ${issue.issue_title}</h5>
+            <p class="card-text"><b>status text:</b> ${issue.issue_text}</p>
             <p class="card-text"><b>status text:</b> ${issue.status_text}</p>
             <p class="card-text"><b>created by:</b> ${
               issue.created_by
@@ -93,18 +95,15 @@ $(document).ready(function () {
   // submit new issue form
   $("#submitIssue").on("submit", function (event) {
     event.preventDefault();
-
     let query = $(this).serialize();
     // console.log("query:", query);
     $(".newIssue").remove();
     $("#submittedIssue").append(
       "<li class='newIssue'>" + `Processing...` + "</li>"
     );
-
     $.post("/api/issues/?", query, function (result) {
       console.log("result:", result);
       $(".newIssue").remove();
-
       if (!("error" in result)) {
         $("#submittedIssue").append(
           "<li class='newIssue'>" +
@@ -136,13 +135,38 @@ $(document).ready(function () {
   // update issue form
   $("#updateForm").on("submit", function (event) {
     event.preventDefault();
+    // console.log(event.target);
+    let query = {};
+    query.project = $("#projectNameUpdate").val();
+    query._id = $("#issueIDUpdate").val();
 
-    let query = $(this).serialize();
+    if ($("#issue_titleUpdateField").prop("checked") == true) {
+      query.issue_title = $("#issue_titleUpdate").val();
+    }
+    if ($("#issue_textUpdateField").prop("checked") == true) {
+      query.issue_text = $("#issue_textUpdate").val();
+    }
+    if ($("#created_byUpdateField").prop("checked") == true) {
+      query.created_by = $("#created_byUpdate").val();
+    }
+
+    if ($("#assigned_toUpdateField").prop("checked") == true) {
+      query.assigned_to = $("#assigned_toUpdate").val();
+    }
+
+    if ($("#status_textUpdateField").prop("checked") == true) {
+      query.status_text = $("#status_textUpdate").val();
+    }
+
+    if ($("#closeTicket").prop("checked") === true) {
+      query.open = "false";
+    }
     console.log("query:", query);
 
     $(".updating").remove();
-    $("#updatedIssue").append("<li class='updating'>" + `Processing...` + "</li>");
-
+    $("#updatedIssue").append(
+      "<li class='updating'>" + `Processing...` + "</li>"
+    );
     $.ajax({
       url: "/api/issues/?",
       type: "PUT",
@@ -151,7 +175,9 @@ $(document).ready(function () {
         console.log("result:", result);
         $(".updating").remove();
         $("#updatedIssue").append(
-          "<li class='updating'>" + `${result.error ? result.error : result.result}` + "</li>"
+          "<li class='updating'>" +
+            `${result.error ? result.error : result.result}` +
+            "</li>"
         );
       },
     });
