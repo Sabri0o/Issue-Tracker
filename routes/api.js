@@ -131,7 +131,7 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
     })
 
     .delete(function (req, res) {
-      let project = req.params.project;
+      let project = req.params.project || req.body.project;
       let issue_id = req.body._id;
       if (!issue_id) {
         res.json({ error: "missing _id" });
@@ -147,7 +147,7 @@ module.exports = function (app, ProjectTrackerModel, IssueTrackerModel) {
               removed.remove();
               project.save((err, result) => {
                 if (err) {
-                  res.json("error while saving changes");
+                  res.json({error:"error while saving changes"});
                 } else {
                   res.json({ result: "successfully deleted", _id: issue_id });
                 }

@@ -182,4 +182,32 @@ $(document).ready(function () {
       },
     });
   });
+
+  
+  // delete issue form
+  $("#deleteIssueForm").on("submit", function (event) {
+    event.preventDefault();
+    let query = $(this).serialize()
+    console.log("query:", query);
+
+    $(".deleting").remove();
+    $("#deletedIssue").append(
+      "<li class='deleting'>" + `Processing...` + "</li>"
+    );
+    $.ajax({
+      url: "/api/issues/?",
+      type: "DELETE",
+      data: query,
+      success: function (result) {
+        console.log("result:", result);
+        $(".deleting").remove();
+        $("#deletedIssue").append(
+          "<li class='deleting'>" +
+            `${result.error ? result.error : result.result}` +
+            "</li>"
+        );
+      },
+    });
+  });
+
 });

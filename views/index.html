@@ -262,23 +262,33 @@
                 </ul>
             </div>
         </div>
+    </div>
+    <div class='formContainer'>
+        <div id="deleteIssue" class="row issueOperation">
+            <div class="col-4">
+                <form id="deleteIssueForm">
+                    <div class="mb-3">
+                        <label for="projectName" class="form-label">Project name</label>
+                        <input name='project' type="text" class="form-control" id="projectName" required>
+                    </div>
 
-        <div class='formContainer'>
-            <form id="deleteIssue" class="issueOperation">
-                <div class="mb-3">
-                    <label for="projectName" class="form-label">Project name</label>
-                    <input type="text" class="form-control" id="projectName" required>
-                </div>
+                    <div class="mb-3">
+                        <label for="projectName" class="form-label">IssueID</label>
+                        <input name='_id' type="text" class="form-control" id="issueID" required>
+                    </div>
 
-                <div class="mb-3">
-                    <label for="projectName" class="form-label">IssueID</label>
-                    <input type="text" class="form-control" id="projectName">
-                </div>
+                    <button type="submit" class="btn btn-primary">Delete issue</button>
 
-                <button type="submit" class="btn btn-primary">Delete issue</button>
+                </form>
+            </div>
 
-            </form>
+            <div class="col-8">
+                <ul id="deletedIssue">
+                </ul>
+            </div>
+
         </div>
+    </div>
 
 </body>
 <script src="/public/client.js"></script>

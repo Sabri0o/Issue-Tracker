@@ -19,10 +19,6 @@ p {
   margin: 20px;
 }
 
-#submitIssue {
-  /* margin: 20px; */
-}
-
 .col-8 {
   display: flex;
   justify-content: center;
@@ -44,4 +40,9 @@ p {
 
 .lists {
   margin: 10px;
+}
+
+.nav-link{
+  font-size: larger;
+  font-weight: 700;
 }

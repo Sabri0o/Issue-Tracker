@@ -47,11 +47,11 @@ describe("Functional tests", function () {
         .request(server)
         .post("/api/issues/project_XY?")
         .send({
-          title: "ticket_X",
-          text: "testing_X",
-          createdBy: "sabri0o",
-          assignedTo: "mister X",
-          statusText: "kill everyone then kill yourself",
+          issue_title: "ticket_X",
+          issue_text: "testing_X",
+          created_by: "sabri0o",
+          assigned_to: "mister X",
+          status_text: "kill everyone then kill yourself",
         })
         .end((err, res) => {
           // console.log("res.body type", typeof res.body);
@@ -78,9 +78,9 @@ describe("Functional tests", function () {
         .request(server)
         .post("/api/issues/project_XY?")
         .send({
-          title: "ticket_Y",
-          text: "testing_Y",
-          createdBy: "sabri0o",
+          issue_title: "ticket_Y",
+          issue_text: "testing_Y",
+          created_by: "sabri0o",
         })
         .end((err, res) => {
           // console.log("res.body type", typeof res.body);
