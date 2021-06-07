@@ -2,11 +2,11 @@ $(document).ready(function () {
   console.log("ready!");
   $(".issueOperation").hide();
   $(".searchField").hide();
-  $("#init").addClass("active");
+  $("#view").addClass("active");
   $("#projectIssues").show();
 
   openTab = function (evt, issueOp) {
-    $("#init").removeClass("active");
+    $("#view").removeClass("active");
     // Get all elements with class="issueOperation" and hide them
     $(".issueOperation").hide();
     $(".nav-link").removeClass("active");
@@ -72,7 +72,7 @@ $(document).ready(function () {
                 }</h5>
           <div class="card-body">
             <h5 class="card-title">title: ${issue.issue_title}</h5>
-            <p class="card-text"><b>status text:</b> ${issue.issue_text}</p>
+            <p class="card-text"><b>text:</b> ${issue.issue_text}</p>
             <p class="card-text"><b>status text:</b> ${issue.status_text}</p>
             <p class="card-text"><b>created by:</b> ${
               issue.created_by

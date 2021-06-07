@@ -16,17 +16,18 @@
     <div class="tabs">
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a id='init' class="nav-link" onclick="openTab(event,'projectIssues')">View issues</a>
+                <a id='view' class="nav-link" onclick="openTab(event,'projectIssues')">View issues</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" onclick="openTab(event,'submitNewIssue')">Submit new issue</a>
+                <a id='submit' class="nav-link" onclick="openTab(event,'submitNewIssue')">Submit new issue</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" onclick="openTab(event,'updateIssue')">Update issue</a>
+                <a id='update' class="nav-link" onclick="openTab(event,'updateIssue')">Update issue</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" onclick="openTab(event,'deleteIssue')">Delete issue</a>
+                <a id='delete' class="nav-link" onclick="openTab(event,'deleteIssue')">Delete issue</a>
             </li>
+
         </ul>
     </div>
 
@@ -36,7 +37,8 @@
                 <form id='issueViewer'>
                     <div class="mb-3">
                         <label for="projectName" class="form-label">Project name</label>
-                        <input name='project' type="text" class="form-control" id="projectName" required placeholder="*Project name">
+                        <input name='project' type="text" class="form-control" id="projectName" required
+                            placeholder="*Project name">
                     </div>
                     <div class="searchForm">
 
@@ -49,7 +51,8 @@
                                 </label>
                             </div>
                             <div class='searchField idSearchField'>
-                                <input id='_id' type="text" class="form-control" placeholder="ID ex:60bdef066a584b217c05ecf9">
+                                <input id='_id' type="text" class="form-control"
+                                    placeholder="ID ex:60bdef066a584b217c05ecf9">
                             </div>
                         </div>
 
@@ -75,7 +78,8 @@
                                 </label>
                             </div>
                             <div class='searchField createdBySearchField'>
-                                <input id='created_by' type="text" class="form-control" placeholder="issue was created by">
+                                <input id='created_by' type="text" class="form-control"
+                                    placeholder="issue was created by">
                             </div>
                         </div>
 
@@ -89,7 +93,8 @@
                                 </label>
                             </div>
                             <div class='searchField assignedToSearchField'>
-                                <input id='assigned_to' type="text" class="form-control" placeholder="issue was assigned to">
+                                <input id='assigned_to' type="text" class="form-control"
+                                    placeholder="issue was assigned to">
                             </div>
                         </div>
 
@@ -125,7 +130,8 @@
                 <form id='submitIssue'>
                     <div class="mb-3">
                         <label for="projectName" class="form-label">Project name</label>
-                        <input name='project' type="text" class="form-control" id="projectName" required placeholder="*Project name">
+                        <input name='project' type="text" class="form-control" id="projectName" required
+                            placeholder="*Project name">
                     </div>
 
                     <div class="mb-3">
@@ -139,20 +145,23 @@
 
                     <div class="mb-3">
                         <label class="form-label">Created by</label>
-                        <input name='created_by' type="text" class="form-control" required placeholder="*issue is created by">
+                        <input name='created_by' type="text" class="form-control" required
+                            placeholder="*issue is created by">
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Assigned to</label>
-                        <input name='assigned_to' type="text" class="form-control" placeholder="issue is assigned to">
+                        <input name='assigned_to' type="text" class="form-control"
+                            placeholder="(opt)issue is assigned to">
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Status Text</label>
-                        <textarea name='status_text' type="text" class="form-control" rows="2" placeholder="brief description"></textarea>
+                        <textarea name='status_text' type="text" class="form-control" rows="2"
+                            placeholder="(opt)brief description"></textarea>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Submit new issue</button>
+                    <button type="submit" class="btn btn-success">Submit new issue</button>
                 </form>
             </div>
             <div class="col-8">
@@ -168,12 +177,14 @@
                 <form id='updateForm'>
                     <div class="mb-3">
                         <label for="projectName" class="form-label">Project name</label>
-                        <input name='project' type="text" class="form-control" id="projectNameUpdate" required placeholder="*project name">
+                        <input name='project' type="text" class="form-control" id="projectNameUpdate" required
+                            placeholder="*project name">
                     </div>
 
                     <div class="mb-3">
                         <label for="issueID" class="form-label">IssueID</label>
-                        <input name='_id' type="text" class="form-control" id="issueIDUpdate" required placeholder="*ID ex:60bdef066a584b217c05ecf9">
+                        <input name='_id' type="text" class="form-control" id="issueIDUpdate" required
+                            placeholder="*ID ex:60bdef066a584b217c05ecf9">
                     </div>
                     <div class=searchForm>
 
@@ -186,7 +197,8 @@
                                 </label>
                             </div>
                             <div class='searchField issue_titleUpdateField'>
-                                <input id='issue_titleUpdate' type="text" class="form-control" placeholder="new issue title">
+                                <input id='issue_titleUpdate' type="text" class="form-control"
+                                    placeholder="new issue title">
                             </div>
                         </div>
 
@@ -199,7 +211,8 @@
                                 </label>
                             </div>
                             <div class='searchField issue_textUpdateField'>
-                                <input id='issue_textUpdate' type="text" class="form-control" placeholder="new issue text">
+                                <input id='issue_textUpdate' type="text" class="form-control"
+                                    placeholder="new issue text">
                             </div>
                         </div>
 
@@ -213,7 +226,8 @@
                                 </label>
                             </div>
                             <div class='searchField created_byUpdateField'>
-                                <input id='created_byUpdate' type="text" class="form-control" placeholder="update created by">
+                                <input id='created_byUpdate' type="text" class="form-control"
+                                    placeholder="update created by">
                             </div>
                         </div>
 
@@ -226,7 +240,8 @@
                                 </label>
                             </div>
                             <div class='searchField assigned_toUpdateField'>
-                                <input id='assigned_toUpdate' type="text" class="form-control" placeholder="update assigned to">
+                                <input id='assigned_toUpdate' type="text" class="form-control"
+                                    placeholder="update assigned to">
                             </div>
                         </div>
 
@@ -240,7 +255,8 @@
                                 </label>
                             </div>
                             <div class='searchField status_textUpdateField'>
-                                <textarea id='status_textUpdate' type="text" class="form-control" placeholder="update description"></textarea>
+                                <textarea id='status_textUpdate' type="text" class="form-control"
+                                    placeholder="update description"></textarea>
                             </div>
                         </div>
 
@@ -254,7 +270,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Update issue</button>
+                    <button type="submit" class="btn btn-warning">Update issue</button>
                 </form>
             </div>
             <div class="col-8">
@@ -269,15 +285,17 @@
                 <form id="deleteIssueForm">
                     <div class="mb-3">
                         <label for="projectName" class="form-label">Project name</label>
-                        <input name='project' type="text" class="form-control" id="projectName" required placeholder="*project name">
+                        <input name='project' type="text" class="form-control" id="projectName" required
+                            placeholder="*project name">
                     </div>
 
                     <div class="mb-3">
                         <label for="projectName" class="form-label">IssueID</label>
-                        <input name='_id' type="text" class="form-control" id="issueID" required placeholder="*ID ex:60bdef066a584b217c05ecf9">
+                        <input name='_id' type="text" class="form-control" id="issueID" required
+                            placeholder="*ID ex:60bdef066a584b217c05ecf9">
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Delete issue</button>
+                    <button type="submit" class="btn btn-danger">Delete issue</button>
 
                 </form>
             </div>

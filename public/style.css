@@ -1,4 +1,8 @@
 /* Style the tab */
+
+h2{
+  padding: 8px;
+}
 p {
   background-color: #f1f1f1;
 }
@@ -34,15 +38,58 @@ p {
   overflow: auto;
 }
 
-.card {
-  width: 900px;
-}
-
 .lists {
   margin: 10px;
 }
 
-.nav-link{
+/* Create an active/current tablink class */
+.nav .nav-item .nav-link {
+  color: rgb(94, 119, 231);
+}
+.nav .nav-item #view:hover {
+  background-color: rgb(41, 101, 211);
+  color: rgb(255, 255, 255);
+  font-size: larger;
+}
+.nav .nav-item #view.active {
+  background-color: rgb(255, 255, 255);
+  color: rgb(41, 101, 211);
+  font-size: larger;
+  font-weight: 700;
+}
+
+.nav .nav-item #submit:hover {
+  background-color: rgb(17, 153, 69);
+  color: rgb(255, 255, 255);
+  font-size: larger;
+}
+.nav .nav-item #submit.active {
+  background-color: rgb(255, 255, 255);
+  color: rgb(17, 153, 69);
+  font-size: larger;
+  font-weight: 700;
+}
+
+.nav .nav-item #update:hover {
+  background-color: rgb(243, 228, 14);
+  color: rgb(255, 255, 255);
+  font-size: larger;
+}
+.nav .nav-item #update.active {
+  background-color: rgb(255, 255, 255);
+  color: rgb(243, 228, 14);
+  font-size: larger;
+  font-weight: 700;
+}
+
+.nav .nav-item #delete:hover {
+  background-color: rgb(230, 38, 31);
+  color: rgb(255, 255, 255);
+  font-size: larger;
+}
+.nav .nav-item #delete.active {
+  background-color: rgb(255, 255, 255);
+  color: rgb(230, 38, 31);
   font-size: larger;
   font-weight: 700;
 }
